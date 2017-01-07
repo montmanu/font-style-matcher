@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'NYTCheltenhamSH';
+  src: url('https://typeface.nytimes.com/fonts/nyt-cheltenham-sh-400-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'NYTCheltenhamSH';
+  src: url('https://typeface.nytimes.com/fonts/nyt-cheltenham-sh-400-italic.woff') format('woff');
+  font-style: italic;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'NYTCheltenhamSH';
+  src: url('https://typeface.nytimes.com/fonts/nyt-cheltenham-sh-700-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'NYTCheltenhamSH';
+  src: url('https://typeface.nytimes.com/fonts/nyt-cheltenham-sh-700-italic.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+}

@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'NYTImperial';
+  src: url('https://typeface.nytimes.com/fonts/nyt-imperial-500-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'NYTImperial';
+  src: url('https://typeface.nytimes.com/fonts/nyt-imperial-700-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'NYTImperial';
+  src: url('https://typeface.nytimes.com/fonts/nyt-imperial-500-italic.woff') format('woff');
+  font-style: italic;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'NYTImperial';
+  src: url('https://typeface.nytimes.com/fonts/nyt-imperial-700-italic.woff') format('woff');
+  font-style: italic;
+  font-weight: 700;
+}

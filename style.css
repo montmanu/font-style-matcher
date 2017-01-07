@@ -1,9 +1,16 @@
+html, body {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   -webkit-font-smoothing: antialiased;
   margin: 0;
 }
-
 
 .container {
   max-width: 700px;
@@ -19,14 +26,17 @@ p {
   line-height: 1.8em;
 }
 
-a:link, a:visited, button.clipboardButton {
+a:link,
+a:visited,
+.input-field-buttons button {
   color: #3F51B5;
   text-decoration: none;
   padding-bottom: 5px;
   padding-top: 5px;
 }
 
-a:hover, button.clipboardButton:hover {
+a:hover,
+.input-field-buttons button:hover {
   background-color: #fde100;
   border-radius: 3px;
   text-decoration: none;
@@ -111,7 +121,8 @@ h2 {
   font-weight: normal;
 }
 
-.input-field {
+.input-field,
+.input-field-buttons {
   position: relative;
 }
 
@@ -210,16 +221,39 @@ hr {
   background: red;
 }
 
-.clipboardButton {
-  background: transparent;
+.input-field-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+  padding-bottom: 22px;
+}
+
+.input-field-buttons button {
+  flex: 1 50%;
+  background-color: transparent;
   border: none;
   cursor: pointer;
   position: relative;
   font-size: 14px;
-  padding: 0;
+  padding: 5px;
 }
 
-.clipboardButton svg {
+.input-field-buttons svg {
   vertical-align: middle;
   fill: #3F51B5;
+}
+
+.input-field-buttons span {
+  line-height: 24px;
+  vertical-align: top;
+}
+
+/* Medium screens */
+@media all and (min-width: 501px) {
+  .input-field-buttons button {
+    flex: 1 50%;
+    padding: 10px 0;
+  }
 }

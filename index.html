@@ -45,16 +45,6 @@
 <body>
   <div class="container">
     <h1>Font style matcher</h1>
-    <p>
-      If you're using a web font, you're bound to see a flash of unstyled text (or FOUC),
-      between the initial render of your websafe font and the webfont that you've chosen.
-      This usually results in a jarring shift in layout, due to
-      sizing discrepancies between the two fonts. To minimize this
-      discrepancy, you can try to match the fallback font and the intended webfont’s
-      x-heights and widths <a href="http://helenvholmes.com/writing/type-is-your-right">[1]</a>.
-      This tool helps you do <b><i>exactly</i></b> that.
-    </p>
-    <br>
     <div class="columns">
       <div>
         <div class="input-field" title="Type a different font family, like 'Arial', and tab away from the input to see a preview of it.">
@@ -65,134 +55,179 @@
         <br>
 
         <div class="input-field">
-          <input type="range" value="16"
-              min="5" max="50" step="1"
+          <input type="range" value="34"
+              min="5" max="50" step="0.25"
               id="fallbackSize"
               data-target="fallback">
-          <label>Font size: <span id="fallbackSizeDisplay">16px</span></label>
+          <label>Font size: <span id="fallbackSizeDisplay">34px</span></label>
+        </div>
+
+        <div class="input-field">
+          <input type="range" value="700"
+              min="100" max="900" step="100"
+              id="fallbackWeight"
+              data-target="fallback">
+          <label>Font weight: <span id="fallbackWeightDisplay">700</span></label>
+        </div>
+
+        <div class="input-field">
+          <input value="italic" placeholder="Fallback font style"
+              id="fallbackFontStyle" list="fallbackFontStyles"
+              data-target="fallback">
+          <datalist id="fallbackFontStyles">
+            <option value="italic">italic</option>
+            <option value="normal">normal</option>
+            <option value="oblique">oblique</option>
+          </datalist>
+          <label for="fallbackFontStyle">Font style</label>
         </div>
 
         <div class="input-field">
           <input type="range" value="1"
-              min="0" max="5" step="0.05"
+              min="-10" max="10" step="0.025"
               id="fallbackLineHeight"
               data-target="fallback">
           <label>Line height: <span id="fallbackLineHeightDisplay">1</span></label>
         </div>
 
         <div class="input-field">
-          <input type="range" value="300"
-              min="100" max="900" step="100"
-              id="fallbackWeight"
-              data-target="fallback">
-          <label>Font weight: <span id="fallbackWeightDisplay">300</span></label>
-        </div>
-
-        <div class="input-field">
-          <input type="range" value="0" min="-2" max="2" step="0.05"
+          <input type="range" value="0" min="-10" max="10" step="0.025"
               id="fallbackSpacing"
               data-target="fallback">
           <label>Letter spacing: <span id="fallbackSpacingDisplay">0px</span></label>
         </div>
 
         <div class="input-field">
-          <input type="range" value="0" min="-2" max="2" step="0.05"
+          <input type="range" value="0" min="-10" max="10" step="0.025"
               id="fallbackWordSpacing"
               data-target="fallback">
           <label>Word spacing: <span id="fallbackWordSpacingDisplay">0px</span></label>
         </div>
 
-        <button class='clipboardButton' id="fallbackClipboardButton" data-clipboard-text="">
-          <svg height="24" width="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g></svg>
-          <span>Copy CSS to clipboard</span>
-        </button>
-        <p id="fallback">The fox jumped over the lazy dog, the scoundrel.</p>
+        <div class="input-field-buttons">
+          <button class='clipboardButton' id="fallbackClipboardButton" data-clipboard-text="">
+            <svg height="24" width="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g></svg>
+            <span>Copy</span>
+          </button>
+
+          <button class='resetButton' id="fallbackResetButton" data-target="fallback">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12,3A9,9 0 0,0 3,12H0L4,16L8,12H5A7,7 0 0,1 12,5A7,7 0 0,1 19,12A7,7 0 0,1 12,19C10.5,19 9.09,18.5 7.94,17.7L6.5,19.14C8.04,20.3 9.94,21 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12Z" />
+            </svg>
+            <span>Reset</span>
+          </button>
+        </div>
+
+        <p id="fallback">Russians Ridicule U.S. Charge That Kremlin Meddled to Help Trump</p>
       </div>
 
       <div>
-        <div class="input-field" title="Type a different font family, like 'Arial', and tab away from the input to see a preview of it.">
-          <input value="Merriweather" placeholder="Web font name" class="with-checkbox"
+        <div class="input-field" title="Type a different font family, like 'NYTFranklin', and tab away from the input to see a preview of it.">
+          <input value="NYTCheltenham" placeholder="Web font name" class="with-checkbox"
               id="webfontName" list="families"
               data-target="webfont">
           <datalist id="families"></datalist>
           <label for="webfontName">Web font</label>
           <input id="downloadFont" type="checkbox" checked>
-          <span class="text">Download from Google Fonts</span>
+          <span class="text">Download</span>
         </div>
         <br>
 
         <div class="input-field">
-          <input type="range" value="16"
-              min="5" max="50" step="1"
+          <input type="range" value="34"
+              min="5" max="50" step="0.25"
               id="webfontSize"
               data-target="webfont">
-          <label>Font size: <span id="webfontSizeDisplay">16px</span></label>
+          <label>Font size: <span id="webfontSizeDisplay">34px</span></label>
+        </div>
+
+        <div class="input-field">
+          <input type="range" value="700"
+              min="100" max="900" step="100"
+              id="webfontWeight"
+              data-target="webfont">
+          <label>Font weight: <span id="webfontWeightDisplay">700</span></label>
+        </div>
+
+        <div class="input-field">
+          <input value="italic" placeholder="Web font style"
+              id="webfontFontStyle" list="webfontFontStyles"
+              data-target="webfont">
+          <datalist id="webfontFontStyles">
+            <option value="italic">italic</option>
+            <option value="normal">normal</option>
+            <option value="oblique">oblique</option>
+          </datalist>
+          <label for="webfontFontStyle">Font style</label>
         </div>
 
         <div class="input-field">
           <input type="range" value="1"
-              min="0" max="5" step="0.05"
+              min="-10" max="10" step="0.025"
               id="webfontLineHeight"
               data-target="webfont">
           <label>Line height: <span id="webfontLineHeightDisplay">1</span></label>
         </div>
 
         <div class="input-field">
-          <input type="range" value="300"
-              min="100" max="900" step="100"
-              id="webfontWeight"
-              data-target="webfont">
-          <label>Font weight: <span id="webfontWeightDisplay">300</span></label>
-        </div>
-
-        <div class="input-field">
-          <input type="range" value="0" min="-2" max="2" step="0.05"
+          <input type="range" value="0" min="-10" max="10" step="0.025"
               id="webfontSpacing"
               data-target="webfont">
           <label>Letter spacing: <span id="webfontSpacingDisplay">0px</span></label>
         </div>
 
         <div class="input-field">
-          <input type="range" value="0" min="-2" max="2" step="0.05"
+          <input type="range" value="0" min="-10" max="10" step="0.025"
               id="webfontWordSpacing"
               data-target="webfont">
           <label>Word spacing: <span id="webfontWordSpacingDisplay">0px</span></label>
         </div>
 
-        <button class='clipboardButton' id="webfontClipboardButton" data-clipboard-text="">
-          <svg height="24" width="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g></svg>
-          <span>Copy CSS to clipboard</span>
-        </button>
-        <p id="webfont">The fox jumped over the lazy dog, the scoundrel.</p>
+        <div class="input-field-buttons">
+          <button class='clipboardButton' id="webfontClipboardButton" data-clipboard-text="">
+            <svg height="24" width="24" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></g></svg>
+            <span>Copy</span>
+          </button>
+
+          <button class='resetButton' id="webfontResetButton" data-target="webfont">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12,3A9,9 0 0,0 3,12H0L4,16L8,12H5A7,7 0 0,1 12,5A7,7 0 0,1 19,12A7,7 0 0,1 12,19C10.5,19 9.09,18.5 7.94,17.7L6.5,19.14C8.04,20.3 9.94,21 12,21A9,9 0 0,0 21,12A9,9 0 0,0 12,3M14,12A2,2 0 0,0 12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12Z" />
+            </svg>
+            <span>Reset</span>
+          </button>
+        </div>
+
+        <p id="webfont">Russians Ridicule U.S. Charge That Kremlin Meddled to Help Trump</p>
       </div>
     </div>
 
     <h2>Overlapped</h2>
-    <p>In the default example, Merriweather is taller and wider than Georgia, so if you
-      bump Georgia's <b>font size</b> up to 18px, and its <b>letter spacing</b> to 0.1px
-      you'll get a pretty close match!</p>
+    <p>In the default example, NYTCheltenham is narrower and shorter than Georgia.. tweak the settings to get as close of a match as possible. <em>Hint: use the left and right arrow keys for more precise changes to slider inputs.</em></p>
 
     <p>
-      <label><input type="checkbox" id="useColours">Use different colours for each font</label><br>
+      <label><input type="checkbox" id="useColours">Use a different color (red) for the fallback font</label><br>
       <label><input type="checkbox" id="simulateFout">See layout shift due to FOUC</label>
     </p>
 
     <br>
     <div class="output">
-      <div id="fallbackOutput">The fox jumped over the lazy dog, the scoundrel.
-        <br><br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
-      <div id="webfontOutput" contenteditable="true" class="overlap-font">The fox jumped over the lazy dog, the scoundrel.
-        <br><br>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </div>
+      <div id="fallbackOutput">Russians Ridicule U.S. Charge That Kremlin Meddled to Help Trump</div>
+      <div id="webfontOutput" contenteditable="true" class="overlap-font">Russians Ridicule U.S. Charge That Kremlin Meddled to Help Trump</div>
     </div>
 
     <footer>
-      made with ✨ by <a href="https://twitter.com/notwaldorf">monica</a>. inspired
+       <p>
+        If you're using a web font, you're bound to see a flash of unstyled text (or FOUC),
+        between the initial render of your websafe font and the webfont that you've chosen.
+        This usually results in a jarring shift in layout, due to
+        sizing discrepancies between the two fonts. To minimize this
+        discrepancy, you can try to match the fallback font and the intended webfont’s
+        x-heights and widths <a href="http://helenvholmes.com/writing/type-is-your-right">[1]</a>.
+        This tool helps you do <b><i>exactly</i></b> that.
+      </p>
+      <br>
+      forked from <a href="https://github.com/notwaldorf/font-style-matcher">notwaldorf/font-style-matcher</a>. credit to <a href="https://twitter.com/notwaldorf">monica</a>. inspired
         by <a href="https://twitter.com/helenvholmes">helen's</a> blog <a href="http://helenvholmes.com/writing/type-is-your-right">post</a>.
-        find this on <a href="https://github.com/notwaldorf/font-style-matcher">github</a>
     </footer>
   </div>
 </body>

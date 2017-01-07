@@ -4,7 +4,7 @@
   var clipboard = new Clipboard('.clipboardButton');
   updateClipboardButtons();
 
-  getAllGoogleFonts();
+  getAllNYTFonts();
 
   simulateFout.addEventListener('change', fout);
   downloadFont.addEventListener('change', download);
@@ -13,10 +13,18 @@
 
   fallback.style.fontFamily = fallbackOutput.style.fontFamily = fallbackName.value;
   webfont.style.fontFamily = webfontOutput.style.fontFamily = webfontName.value;
-  fallback.style.fontSize = fallbackOutput.style.fontSize = '16px';
-  webfont.style.fontSize = webfontOutput.style.fontSize = '16px';
-  fallback.style.lineHeight = fallbackOutput.style.lineHeight = '28px';
-  webfont.style.lineHeight = webfontOutput.style.lineHeight = '28px';
+  fallback.style.fontSize = fallbackOutput.style.fontSize = fallbackSize.value + 'px';
+  webfont.style.fontSize = webfontOutput.style.fontSize = webfontSize.value + 'px';
+  fallback.style.fontWeight = fallbackOutput.style.fontWeight = fallbackWeight.value;
+  webfont.style.fontWeight = webfontOutput.style.fontWeight = webfontWeight.value;
+  fallback.style.fontStyle = fallbackOutput.style.fontStyle = fallbackFontStyle.value;
+  webfont.style.fontStyle = webfontOutput.style.fontStyle = webfontFontStyle.value;
+  fallback.style.lineHeight = fallbackOutput.style.lineHeight = fallbackLineHeight.value;
+  webfont.style.lineHeight = webfontOutput.style.lineHeight = webfontLineHeight.value;
+  fallback.style.letterSpacing = fallbackOutput.style.letterSpacing = fallbackSpacing.value + 'px';
+  webfont.style.letterSpacing = webfontOutput.style.letterSpacing = webfontSpacing.value + 'px';
+  fallback.style.wordSpacing = fallbackOutput.style.wordSpacing = fallbackWordSpacing.value + 'px';
+  webfont.style.wordSpacing = webfontOutput.style.wordSpacing = fallbackWordSpacing.value + 'px';
 
   fallbackName.addEventListener('input', updateFontFamily);
   webfontName.addEventListener('input', updateFontFamily);
@@ -36,15 +44,20 @@
   fallbackWeight.addEventListener('input', updateFontWeight);
   webfontWeight.addEventListener('input', updateFontWeight);
 
+  fallbackFontStyle.addEventListener('input', updateFontStyle);
+  webfontFontStyle.addEventListener('input', updateFontStyle);
+
   webfontOutput.addEventListener('blur', changeText);
   webfontOutput.addEventListener('focus', clearText);
 
+  fallbackResetButton.addEventListener('click', resetStyles);
+  webfontResetButton.addEventListener('click', resetStyles);
 
   clipboard.on('success', function(e) {
     var span = e.trigger.querySelector('span')
     span.textContent = 'Copied!';
     setTimeout(function() {
-      span.textContent = 'Copy CSS to clipboard';
+      span.textContent = 'Copy';
     }, 1000);
   });
 
@@ -52,7 +65,7 @@
     var span = e.trigger.querySelector('span')
     span.textContent = 'Error copying :(';
     setTimeout(function() {
-      span.textContent = 'Copy CSS to clipboard';
+      span.textContent = 'Copy';
     }, 1000);
   });
 
@@ -117,14 +130,74 @@
     document.getElementById(which + 'WeightDisplay').textContent = value;
   }
 
+  function updateFontStyle(event) {
+    var value = event.target.value;
+    var which = event.target.dataset.target;
+    updateStyle('font-style', which, value);
+    updateStyle('font-style', which + 'Output', value);
+  }
+
   function updateStyle(name, element, value) {
     document.getElementById(element).style[name] = value;
     updateClipboardButtons();
   }
 
+  function resetStyles(event) {
+    var which = event.currentTarget.dataset.target;
+    var defaultStyles = {
+      fallback: {
+        name: 'Georgia',
+        size: 34,
+        fontWeight: 700,
+        fontStyle: 'italic',
+        lineHeight: 1,
+        letterSpacing: 0,
+        wordSpacing: 0
+      },
+      webfont: {
+        name: 'NYTCheltenham',
+        size: 34,
+        fontWeight: 700,
+        fontStyle: 'italic',
+        lineHeight: 1,
+        letterSpacing: 0,
+        wordSpacing: 0
+      }
+    };
+
+    var inputs = which === 'fallback' ? ([
+      { type: 'name', el: fallbackName },
+      { type: 'size', el: fallbackSize },
+      { type: 'fontWeight', el: fallbackWeight },
+      { type: 'fontStyle', el: fallbackFontStyle },
+      { type: 'lineHeight', el: fallbackLineHeight },
+      { type: 'letterSpacing', el: fallbackSpacing },
+      { type: 'wordSpacing', el: fallbackWordSpacing }
+    ]) : ([
+      { type: 'name', el: webfontName },
+      { type: 'size', el: webfontSize },
+      { type: 'fontWeight', el: webfontWeight },
+      { type: 'fontStyle', el: webfontFontStyle },
+      { type: 'lineHeight', el: webfontLineHeight },
+      { type: 'letterSpacing', el: webfontSpacing },
+      { type: 'wordSpacing', el: webfontWordSpacing }
+    ]);
+
+    inputs.forEach(input => {
+      var type = input.type;
+      var el = input.el;
+      el.value = defaultStyles[which][type];
+      el.dispatchEvent(new Event('input', {
+        view: window,
+        bubbles: true,
+        cancelable: true
+      }));
+    });
+  }
+
   function updateClipboardButtons() {
-    var fallbackCss = fallbackOutput.style.cssText.split('; ').join('\n');
-    var webfontCss = webfontOutput.style.cssText.split('; ').join('\n');
+    var fallbackCss = fallbackOutput.style.cssText.split('; ').join(';\n');
+    var webfontCss = webfontOutput.style.cssText.split('; ').join(';\n');
     document
         .getElementById('fallbackClipboardButton')
         .setAttribute('data-clipboard-text', fallbackCss);
@@ -166,10 +239,14 @@
     if (!shouldDownload)
       return;
 
-    var url = 'https://fonts.googleapis.com/css?family=' + webfontName.value.trim() +
-        ':300,300i,400,400i,700,700i,900,900i';
+    var name = webfontName.value.trim();
+    var id = 'font-css-' + name;
+    if (document.getElementById(id))
+      return;
 
+    var url = './styles/' + name + '.css';
     var link = document.createElement('link');
+    link.id = id;
     link.rel = 'stylesheet';
     link.href = url;
     document.head.appendChild(link);
@@ -180,17 +257,16 @@
     fallbackOutput.style.color = shouldColour ? 'red' : 'black';
   }
 
-  function getAllGoogleFonts() {
+  function getAllNYTFonts() {
     var request = new XMLHttpRequest();
-    var url = 'https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAkX01E9DhABr4cn4tKD26JuHQstaT5-Ss';
+    var url = './data/fonts.json';
     request.open('GET', url, true);
     request.onreadystatechange = function() {
       if (request.readyState == 4 && request.status == 200) {
-        var data = JSON.parse(request.responseText);
-        var names = data.items;
+        var fonts = JSON.parse(request.responseText);
         var options = '';
-        for (var i = 0; i < names.length; i++) {
-          options += '<option value="'+ names[i].family +'"/>'; ;
+        for (var i = 0; i < fonts.length; i++) {
+          options += '<option value="'+ fonts[i].family +'"/>'; ;
         }
         document.getElementById('families').innerHTML = options;
       }
