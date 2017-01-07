@@ -1,0 +1,13 @@
+@font-face {
+  font-family: 'NYTMagSans';
+  src: url('https://typeface.nytimes.com/fonts/nyt-mag-sans-500-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'NYTMagSans';
+  src: url('https://typeface.nytimes.com/fonts/nyt-mag-sans-700-normal.woff') format('woff');
+  font-style: normal;
+  font-weight: 700;
+}
